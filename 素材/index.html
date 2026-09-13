@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>万物互联、极致体验</title>
+    <link rel="stylesheet" href="./font-awesome.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            text-align: center;
+            padding: 40px 20px;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+        /* 引入书法字体，用于大标题 */
+        @font-face {
+            font-family: "shuFa";
+            src: url("./fonts/书法.ttf");
+        }
+        .main-title {
+            font-family: "shuFa", sans-serif;
+            font-size: 44px;
+            margin-bottom: 60px;
+        }
+        .two-card-wrap {
+            display: flex;
+            justify-content: center;
+            gap: 70px;
+            margin-bottom: 80px;
+        }
+        .card-item {
+            width: 430px;
+        }
+        .card-item img {
+            width: 100px;
+            margin-bottom:20px;
+        }
+        .card-item p {
+            font-size: 16px;
+            line-height:1.8;
+            color:#333;
+        }
+        .sub-title {
+            font-size:32px;
+            margin-bottom:40px;
+        }
+        .platform-wrap {
+            display:flex;
+            justify-content:center;
+            gap:90px;
+        }
+        .platform-item {
+            width:150px;
+        }
+        .platform-item img {
+            width:65px;
+            margin-bottom:15px;
+        }
+        .platform-item p {
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="main-title">万物互联、极致体验</h1>
+
+    <!-- 上部分两个卡片 -->
+    <div class="two-card-wrap">
+        <div class="card-item">
+            <img src="./images/1.png" alt="HTML5">
+            <p>【HTML5】HTML5不仅仅是HTML规范的当前最新版本，HTML5进化的重大意义还在于HTML5从技术层面带来了八个类别的革新。HTML5规范以“用户至上”为宗旨。也就是说在遇到冲突时，规范的优先级为：用户>页面作者>实现者（浏览器）>规范开发者（W3C/WHATWG）>纯理论。除此之外，HTML5还引入了一种新的安全模型来保证HTML5足够安全。</p>
+        </div>
+        <div class="card-item">
+            <img src="./images/2.png" alt="CSS3">
+            <p>【HTML5】HTML5不仅仅是HTML规范的当前最新版本，HTML5进化的重大意义还在于HTML5从技术层面带来了八个类别的革新。HTML5规范以“用户至上”为宗旨。也就是说在遇到冲突时，规范的优先级为：用户>页面作者>实现者（浏览器）>规范开发者（W3C/WHATWG）>纯理论。除此之外，HTML5还引入了一种新的安全模型来保证HTML5足够安全。</p>
+        </div>
+    </div>
+
+    <!-- 平台支持区域 -->
+    <h2 class="sub-title">平台支持</h2>
+    <div class="platform-wrap">
+        <div class="platform-item">
+            <img src="./images/3.png" alt="apple">
+            <p>原生移动APP开发</p>
+        </div>
+        <div class="platform-item">
+            <img src="./images/4.png" alt="微信">
+            <p>微信公共平台开发</p>
+        </div>
+        <div class="platform-item">
+            <img src="./images/5.png" alt="显示器">
+            <p>网站开发</p>
+        </div>
+        <div class="platform-item">
+            <img src="./images/6.png" alt="笔记本">
+            <p>桌面应用开发</p>
+        </div>
+    </div>
+
+</body>
+</html>
