@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI 助教答疑平台登录页面，演示 HTML5 表单增强特性。">
+<title>登录 · AI 助教答疑平台</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="auth-shell">
+
+  <!-- ==================== 左侧：品牌介绍 ==================== -->
+  <aside class="brand">
+    <div class="logo">
+      <span class="mark" aria-hidden="true">🎓</span>
+      AI 助教答疑平台
+    </div>
+
+    <div>
+      <h1>欢迎回来，<br>继续把没弄懂的题弄懂。</h1>
+      <p class="lead">登录后可查看历史答疑、错题本与班级题库，换设备也能接着上次的对话往下问。</p>
+    </div>
+
+    <ul class="feature-list">
+      <li>历史提问与追问记录云端同步</li>
+      <li>错题本按知识点自动归档，考前直接复盘</li>
+      <li>收藏同学分享的优质解析，随时回看</li>
+      <li>教师与助教身份可参与解析审核</li>
+    </ul>
+
+    <div class="stats">
+      <div><b>128万</b><span>累计提问</span></div>
+      <div><b>96%</b><span>用户好评</span></div>
+      <div><b>3 秒</b><span>平均响应</span></div>
+    </div>
+  </aside>
+
+  <!-- ==================== 右侧：登录表单 ==================== -->
+  <main class="auth-panel">
+
+    <!-- 登录 / 注册 互相跳转 -->
+    <nav class="page-switch" aria-label="登录与注册切换">
+      <a href="login.html" aria-current="page">登录</a>
+      <a href="index.html">注册</a>
+    </nav>
+
+    <div class="panel-head">
+      <h2>登录你的账号</h2>
+      <p>还没有账号？<a href="index.html">免费注册一个</a></p>
+    </div>
+
+    <p class="demo-tip">
+      <span aria-hidden="true">💡</span>
+      <span>演示账号 <code>demo@ai-ta.com</code>，密码 <code>Aita12345</code>；验证码按右侧图片手动输入即可。</span>
+    </p>
+
+    <div class="form-error" id="formError" role="alert" aria-live="assertive"></div>
+
+    <!-- novalidate 让 JS 接管提交时机，从而能一次性汇总所有错误字段 -->
+    <form id="loginForm" action="#" method="post"
+          autocomplete="on" accept-charset="UTF-8" novalidate>
+
+      <fieldset>
+        <legend>账号登录</legend>
+
+        <div class="field">
+          <label for="account">账号 <span class="req" title="必填">*</span></label>
+          <!-- list + datalist：给出最近使用的账号，支持键盘上下键选择 -->
+          <input type="text" id="account" name="account"
+                 placeholder="邮箱 / 手机号 / 用户名"
+                 list="accountList" autocomplete="username" autofocus
+                 required minlength="4" maxlength="32" spellcheck="false"
+                 pattern="^[A-Za-z0-9_.@-]{4,32}$"
+                 aria-describedby="accountMsg">
+          <datalist id="accountList">
+            <option value="demo@ai-ta.com">演示账号</option>
+            <option value="13800138000">手机号登录</option>
+          </datalist>
+          <p class="msg" id="accountMsg"></p>
+          <p class="combo-hint">输入时会提示最近使用过的账号，可用 <kbd>↑</kbd> <kbd>↓</kbd> 键选择。</p>
+        </div>
+
+        <div class="field">
+          <label for="password">密码 <span class="req" title="必填">*</span></label>
+          <div class="pwd">
+            <!-- autocomplete=current-password：让密码管理器正确识别为「已有密码」 -->
+            <input type="password" id="password" name="password"
+                   placeholder="请输入登录密码"
+                   autocomplete="current-password"
+                   required minlength="8" maxlength="32"
+                   aria-describedby="passwordMsg">
+            <button type="button" id="togglePwd" aria-label="显示或隐藏密码" aria-pressed="false">显示</button>
+          </div>
+          <p class="msg" id="passwordMsg"></p>
+        </div>
+
+        <div class="remember-row">
+          <label class="check-line">
+            <input type="checkbox" name="remember" value="yes" checked>
+            <span>记住我，30 天内免登录</span>
+          </label>
+          <a href="#reset">忘记密码？</a>
+        </div>
+
+        <div class="field">
+          <label for="captcha">图形验证码 <span class="req" title="必填">*</span></label>
+          <div class="captcha-row">
+            <!-- pattern + maxlength：限定 4 位字母或数字 -->
+            <input type="text" id="captcha" name="captcha"
+                   placeholder="输入右侧 4 位字符"
+                   required pattern="^[A-Za-z0-9]{4}$" maxlength="4"
+                   autocomplete="off" inputmode="text" spellcheck="false"
+                   aria-describedby="captchaMsg captchaHint">
+            <span class="captcha-code" id="captchaCode" role="button" tabindex="0"
+                  title="点击更换验证码" aria-label="图形验证码，点击可更换">----</span>
+            <button type="button" class="captcha-refresh" id="captchaRefresh">↻ 换一张</button>
+          </div>
+          <p class="msg" id="captchaMsg"></p>
+          <p class="hint" id="captchaHint">看不清可以点击验证码或「换一张」重新生成，大小写不敏感。</p>
+        </div>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" id="submitBtn">登录</button>
+        <button type="button" class="btn btn-ghost" id="guestBtn">游客体验</button>
+      </div>
+
+      <div class="divider">或使用以下方式登录</div>
+      <div class="sso">
+        <a href="#wechat">💬 微信</a>
+        <a href="#qq">🐧 QQ</a>
+        <a href="#edu">🎓 教育邮箱</a>
+      </div>
+
+      <p class="hint" style="text-align:center">
+        还没有账号？<a href="index.html" style="color:var(--brand);font-weight:600">立即注册</a>
+      </p>
+    </form>
+
+    <!-- 登录成功后的面板：progress 先进入不确定状态，再动画到 100% -->
+    <section class="success" id="successPanel" aria-live="polite">
+      <div class="tick" aria-hidden="true">✓</div>
+      <h3>登录成功</h3>
+      <p id="loginState">正在验证身份…</p>
+      <progress id="loginProgress" max="100" aria-label="登录进度"></progress>
+      <div class="actions">
+        <a class="btn btn-primary" href="#dashboard">进入答疑台</a>
+        <button type="button" class="btn btn-ghost" id="backBtn">返回登录</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="assets/auth.js"></script>
+<script>
+/* ============================================================
+   登录页专属逻辑
+   ============================================================ */
+const form       = document.getElementById('loginForm');
+const formError  = document.getElementById('formError');
+const accountIn  = document.getElementById('account');
+const pwdIn      = document.getElementById('password');
+const captchaIn  = document.getElementById('captcha');
+const captchaEl  = document.getElementById('captchaCode');
+const successBox = document.getElementById('successPanel');
+const loginState = document.getElementById('loginState');
+const loginBar   = document.getElementById('loginProgress');
+
+/* 演示用凭据 */
+const DEMO = { account: 'demo@ai-ta.com', password: 'Aita12345' };
+
+/* ---------- 1) 图形验证码 ---------- */
+const CAPTCHA_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+let currentCaptcha = '';
+
+function refreshCaptcha() {
+  let code = '';
+  for (let i = 0; i < 4; i++) {
+    code += CAPTCHA_CHARS[Math.floor(Math.random() * CAPTCHA_CHARS.length)];
+  }
+  currentCaptcha = code;
+  captchaEl.textContent = code;
+  captchaIn.value = '';
+  captchaIn.setCustomValidity('');
+  AuthUI.renderMessage(captchaIn, messages);
+}
+
+captchaEl.addEventListener('click', refreshCaptcha);
+captchaEl.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' || e.key === ' ') {   // 键盘也能更换
+    e.preventDefault();
+    refreshCaptcha();
+  }
+});
+document.getElementById('captchaRefresh').addEventListener('click', refreshCaptcha);
+
+/* ---------- 2) 自定义校验文案 ---------- */
+const messages = {
+  account: {
+    valueMissing: '请输入邮箱、手机号或用户名',
+    tooShort: '账号至少 4 个字符',
+    tooLong: '账号最多 32 个字符',
+    patternMismatch: '账号只能包含字母、数字、下划线、点、@ 和连字符'
+  },
+  password: {
+    valueMissing: '请输入登录密码',
+    tooShort: '密码至少 8 位',
+    customError: '账号或密码不正确，请检查后重试'
+  },
+  captcha: {
+    valueMissing: '请输入右侧的 4 位验证码',
+    patternMismatch: '验证码为 4 位字母或数字',
+    customError: '验证码不正确，请重新输入'
+  }
+};
+
+/* 用户重新输入即清掉上一次的登录失败提示 */
+[accountIn, pwdIn, captchaIn].forEach((el) => {
+  el.addEventListener('input', () => el.setCustomValidity(''));
+});
+
+/* ---------- 3) 错误汇总 ---------- */
+function showSummary(list) {
+  formError.innerHTML = '⚠ ' + list.join('<br>· ');
+  formError.classList.add('show');
+  formError.scrollIntoView({ block: 'center' });
+}
+
+/* ---------- 4) 提交校验：验证码 → 账号密码 ---------- */
+AuthUI.bindForm({
+  form: form,
+  messages: messages,
+  summary: formError,
+  onValid: () => {
+    /* 第一关：验证码 */
+    if (captchaIn.value.trim().toUpperCase() !== currentCaptcha.toUpperCase()) {
+      captchaIn.setCustomValidity('验证码不正确，请重新输入');
+      captchaIn.reportValidity();
+      AuthUI.renderMessage(captchaIn, messages);
+      showSummary([messages.captcha.customError]);
+      return;
+    }
+
+    /* 第二关：账号与密码 */
+    const ok = accountIn.value.trim().toLowerCase() === DEMO.account &&
+               pwdIn.value === DEMO.password;
+
+    if (!ok) {
+      pwdIn.setCustomValidity('账号或密码不正确，请检查后重试');
+      pwdIn.reportValidity();
+      AuthUI.renderMessage(pwdIn, messages);
+      showSummary([messages.password.customError]);
+      return;
+    }
+
+    enterDashboard();
+  }
+});
+
+/* ---------- 5) 登录成功的进度动画 ---------- */
+let loginTimer = null;
+
+function enterDashboard() {
+  form.style.display = 'none';
+  formError.classList.remove('show');
+  successBox.classList.add('show');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  /* 先进入「不确定进度」状态：progress 不写 value 即为不确定态 */
+  loginBar.removeAttribute('value');
+  loginBar.classList.add('is-indeterminate');
+  loginState.textContent = '正在验证身份…';
+
+  clearInterval(loginTimer);
+  loginTimer = setTimeout(() => {
+    loginBar.classList.remove('is-indeterminate');
+    let pct = 0;
+    loginBar.value = 0;
+    loginState.textContent = '正在加载你的错题本…';
+
+    loginTimer = setInterval(() => {
+      pct = Math.min(100, pct + Math.random() * 16 + 8);
+      loginBar.value = pct;
+      if (pct >= 100) {
+        clearInterval(loginTimer);
+        loginBar.value = 100;
+        loginState.textContent = '已加载 128 条历史答疑，欢迎回来！';
+      }
+    }, 110);
+  }, 900);
+}
+
+/* ---------- 6) 游客体验：一键填入演示账号并用 requestSubmit 提交 ---------- */
+document.getElementById('guestBtn').addEventListener('click', () => {
+  accountIn.value = DEMO.account;
+  pwdIn.value = DEMO.password;
+  captchaIn.value = currentCaptcha;      // 直接把当前验证码填对
+  pwdIn.setCustomValidity('');
+  captchaIn.setCustomValidity('');
+  AuthUI.renderMessage(pwdIn, messages);
+  AuthUI.renderMessage(captchaIn, messages);
+  form.requestSubmit();                  // 触发校验与 submit 事件，等同用户点击登录
+});
+
+/* ---------- 7) 返回登录 ---------- */
+document.getElementById('backBtn').addEventListener('click', () => {
+  clearInterval(loginTimer);
+  successBox.classList.remove('show');
+  loginBar.classList.remove('is-indeterminate');
+  loginBar.value = 0;
+  form.style.display = '';
+  pwdIn.value = '';
+  refreshCaptcha();
+  form.scrollIntoView({ block: 'start' });
+});
+
+/* ---------- 组件绑定与初始化 ---------- */
+AuthUI.bindPasswordToggle(pwdIn, document.getElementById('togglePwd'));
+refreshCaptcha();
+</script>
+</body>
+</html>

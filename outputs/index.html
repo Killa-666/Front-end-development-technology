@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AI 助教答疑平台注册页面，演示 HTML5 表单增强特性。">
+<title>注册账号 · AI 助教答疑平台</title>
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<div class="auth-shell">
+
+  <!-- ==================== 左侧：品牌介绍 ==================== -->
+  <aside class="brand">
+    <div class="logo">
+      <span class="mark" aria-hidden="true">🎓</span>
+      AI 助教答疑平台
+    </div>
+
+    <div>
+      <h1>遇到不会的题，<br>交给 AI 助教先讲一遍。</h1>
+      <p class="lead">覆盖高数、线代、数据结构、英语写作等 20+ 学科。拍照提问、逐步讲解、随时追问，7×24 小时在线。</p>
+    </div>
+
+    <ul class="feature-list">
+      <li>上传题目图片，秒级返回结构化解题思路</li>
+      <li>支持追问与「换种讲法」，直到真的听懂</li>
+      <li>个人错题本自动归类，考前按知识点复盘</li>
+      <li>可邀请同学共同答疑，班级内共享解析</li>
+    </ul>
+
+    <div class="stats">
+      <div><b>128万</b><span>累计提问</span></div>
+      <div><b>20+</b><span>覆盖学科</span></div>
+      <div><b>3 秒</b><span>平均响应</span></div>
+    </div>
+  </aside>
+
+  <!-- ==================== 右侧：注册表单 ==================== -->
+  <main class="auth-panel">
+
+    <!-- 登录 / 注册 互相跳转 -->
+    <nav class="page-switch" aria-label="登录与注册切换">
+      <a href="login.html">登录</a>
+      <a href="index.html" aria-current="page">注册</a>
+    </nav>
+
+    <div class="panel-head">
+      <h2>创建你的账号</h2>
+      <p>已经有账号了？<a href="login.html">直接登录</a></p>
+    </div>
+
+    <!-- 进度：用 HTML5 <progress> 实时反映表单完成度 -->
+    <div class="progress-box">
+      <div class="progress-top">
+        <span>资料完善度</span>
+        <strong id="progressText">0%</strong>
+      </div>
+      <progress id="formProgress" value="0" max="100" aria-label="资料完善度"></progress>
+    </div>
+
+    <div class="form-error" id="formError" role="alert" aria-live="assertive"></div>
+
+    <!--
+      novalidate：校验时机交给 JS 控制，提交时再调用 reportValidity() 弹出原生提示，
+      这样才能一次性汇总所有错误字段（否则浏览器会在 submit 事件之前就拦下表单）。
+    -->
+    <form id="signupForm" action="#" method="post" enctype="multipart/form-data"
+          autocomplete="on" accept-charset="UTF-8" novalidate>
+
+      <!-- ========== 1. 账号信息 ========== -->
+      <fieldset>
+        <legend>01 · 账号信息</legend>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="username">用户名 <span class="req" title="必填">*</span></label>
+            <input type="text" id="username" name="username"
+                   placeholder="3–16 位中文、字母、数字或下划线"
+                   autocomplete="username" autofocus
+                   required minlength="3" maxlength="16"
+                   pattern="^[A-Za-z0-9_\u4e00-\u9fa5]{3,16}$"
+                   aria-describedby="usernameMsg">
+            <p class="msg" id="usernameMsg"></p>
+          </div>
+
+          <div class="field">
+            <label for="realname">真实姓名 <span class="opt">(选填)</span></label>
+            <input type="text" id="realname" name="realname"
+                   placeholder="用于生成学习证书" autocomplete="name" maxlength="20">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="email">邮箱 <span class="req" title="必填">*</span></label>
+            <!-- type=email：原生邮箱格式校验 -->
+            <input type="email" id="email" name="email"
+                   placeholder="you@example.com"
+                   autocomplete="email" required
+                   aria-describedby="emailMsg">
+            <p class="msg" id="emailMsg"></p>
+          </div>
+
+          <div class="field">
+            <label for="phone">手机号 <span class="req" title="必填">*</span></label>
+            <!-- type=tel + inputmode：移动端唤起数字键盘，pattern 做格式约束 -->
+            <input type="tel" id="phone" name="phone"
+                   placeholder="11 位大陆手机号"
+                   autocomplete="tel" inputmode="numeric"
+                   required pattern="^1[3-9]\d{9}$" maxlength="11"
+                   aria-describedby="phoneMsg">
+            <p class="msg" id="phoneMsg"></p>
+          </div>
+        </div>
+
+        <p class="demo-tip">
+          <span aria-hidden="true">💡</span>
+          <span>试试注册已被占用的邮箱 <code>test@example.com</code>，可以看到 <code>setCustomValidity</code> 触发的自定义校验提示。</span>
+        </p>
+      </fieldset>
+
+      <!-- ========== 2. 身份与偏好 ========== -->
+      <fieldset>
+        <legend>02 · 身份与偏好</legend>
+
+        <div class="field">
+          <span class="label" id="roleLabel">你的身份 <span class="req" title="必填">*</span></span>
+          <!-- 单选按钮组：同一 name 互斥，checked 指定默认项 -->
+          <div class="choices" role="radiogroup" aria-labelledby="roleLabel">
+            <label class="choice">
+              <input type="radio" name="role" value="student" checked required>
+              <span>🎒 学生<small>提问为主</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="role" value="teacher">
+              <span>📘 教师<small>发布题目</small></span>
+            </label>
+            <label class="choice">
+              <input type="radio" name="role" value="ta">
+              <span>🛠 助教<small>审核解析</small></span>
+            </label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="label" id="subjectLabel">关注学科 <span class="opt">(可多选)</span></span>
+          <!-- 复选框组：同名多值，提交后成为数组 -->
+          <div class="chips" role="group" aria-labelledby="subjectLabel">
+            <label class="chip"><input type="checkbox" name="subjects" value="math" checked><span>高等数学</span></label>
+            <label class="chip"><input type="checkbox" name="subjects" value="linear"><span>线性代数</span></label>
+            <label class="chip"><input type="checkbox" name="subjects" value="cs"><span>数据结构</span></label>
+            <label class="chip"><input type="checkbox" name="subjects" value="english"><span>英语写作</span></label>
+            <label class="chip"><input type="checkbox" name="subjects" value="physics"><span>大学物理</span></label>
+            <label class="chip"><input type="checkbox" name="subjects" value="other"><span>其他</span></label>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="school">学校 / 机构</label>
+            <!-- list + datalist：既能自由输入，又有候选项 -->
+            <input type="text" id="school" name="school"
+                   placeholder="输入或从列表选择" list="schoolList" autocomplete="organization">
+            <datalist id="schoolList">
+              <option value="清华大学"></option>
+              <option value="北京大学"></option>
+              <option value="复旦大学"></option>
+              <option value="浙江大学"></option>
+              <option value="上海交通大学"></option>
+              <option value="自学 / 无"></option>
+            </datalist>
+          </div>
+
+          <div class="field">
+            <label for="enrollDate">入学 / 入职日期</label>
+            <!-- type=date：原生日期选择器，min/max 限制可选范围 -->
+            <input type="date" id="enrollDate" name="enrollDate"
+                   min="1950-01-01" max="2035-12-31">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="homepage">个人主页 <span class="opt">(选填)</span></label>
+            <!-- type=url：自动校验网址格式 -->
+            <input type="url" id="homepage" name="homepage"
+                   placeholder="https://example.com" autocomplete="url"
+                   pattern="https?://.+" aria-describedby="homepageMsg">
+            <p class="msg" id="homepageMsg"></p>
+          </div>
+
+          <div class="field">
+            <label for="invite">邀请码 <span class="opt">(选填)</span></label>
+            <input type="text" id="invite" name="invite"
+                   placeholder="6 位大写字母或数字"
+                   pattern="^[A-Z0-9]{6}$" maxlength="6"
+                   style="text-transform:uppercase" aria-describedby="inviteMsg">
+            <p class="msg" id="inviteMsg"></p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="dailyLimit">每日答疑上限</label>
+          <div class="range-row">
+            <!-- range + output：拖动即时反馈取值 -->
+            <input type="range" id="dailyLimit" name="dailyLimit"
+                   min="0" max="100" step="5" value="30">
+            <output for="dailyLimit" id="limitOut">30 题</output>
+          </div>
+          <p class="hint">设为 0 表示不限量。</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="themeColor">界面主题色</label>
+            <!-- type=color：原生取色器 -->
+            <div class="inline">
+              <input type="color" id="themeColor" name="themeColor" value="#4f46e5">
+              <span class="hint">选择喜欢的强调色，会应用到答疑界面。</span>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="avatar">头像 <span class="opt">(选填)</span></label>
+            <div class="inline">
+              <!-- type=file + accept：限定可选文件类型 -->
+              <span class="avatar" id="avatarPreview" aria-hidden="true">👤</span>
+              <input type="file" id="avatar" name="avatar"
+                     accept="image/png,image/jpeg,image/webp" aria-label="上传头像">
+            </div>
+            <p class="hint">支持 PNG / JPG / WebP，建议 1MB 以内。</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- ========== 3. 安全设置 ========== -->
+      <fieldset>
+        <legend>03 · 安全设置</legend>
+
+        <div class="field">
+          <label for="password">设置密码 <span class="req" title="必填">*</span></label>
+          <div class="pwd">
+            <input type="password" id="password" name="password"
+                   placeholder="至少 8 位，需含字母和数字"
+                   autocomplete="new-password"
+                   required minlength="8" maxlength="32"
+                   pattern="^(?=.*[A-Za-z])(?=.*\d)\S{8,32}$"
+                   aria-describedby="passwordMsg pwdStrengthText">
+            <button type="button" id="togglePwd" aria-label="显示或隐藏密码" aria-pressed="false">显示</button>
+          </div>
+          <div class="meter-row">
+            <!-- 强度用 meter 表示：low / high 决定配色区间 -->
+            <meter id="pwdStrength" min="0" max="5" low="2" high="4" optimum="5" value="0"></meter>
+            <span class="meter-label" id="pwdStrengthText">未填写</span>
+          </div>
+          <p class="msg" id="passwordMsg"></p>
+        </div>
+
+        <div class="field">
+          <label for="password2">确认密码 <span class="req" title="必填">*</span></label>
+          <input type="password" id="password2" name="password2"
+                 placeholder="请再次输入密码"
+                 autocomplete="new-password" required
+                 aria-describedby="password2Msg">
+          <p class="msg" id="password2Msg"></p>
+        </div>
+
+        <div class="field">
+          <label for="findSchool">搜索你的学校 <span class="opt">(选填)</span></label>
+          <!-- type=search：输入后自带一键清空按钮 -->
+          <input type="search" id="findSchool" name="findSchool"
+                 placeholder="输入关键词，右侧会出现清除按钮" autocomplete="off">
+        </div>
+
+        <details>
+          <summary>服务条款与隐私政策摘要</summary>
+          <div class="body">
+            1. 我们仅收集提供答疑服务所必需的账号信息，头像等可选资料可随时在设置中删除。<br>
+            2. 上传的题目图片仅用于生成解析，默认不对外公开；勾选「公开到题库」后才会进入共享题库。<br>
+            3. 解析内容由 AI 生成，可能存在偏差，请以教师与教材为准，重要结论建议二次核对。<br>
+            4. 注册即表示你已年满 14 周岁，或在监护人同意下使用本平台。
+          </div>
+        </details>
+
+        <label class="check-line">
+          <input type="checkbox" name="agree" value="yes" required>
+          <span>我已阅读并同意<a href="#terms">《服务条款》</a>与<a href="#privacy">《隐私政策》</a>。</span>
+        </label>
+
+        <label class="check-line">
+          <input type="checkbox" name="newsletter" value="yes" checked>
+          <span>订阅每周学科精选解析与错题提醒（可随时退订）。</span>
+        </label>
+      </fieldset>
+
+      <div class="actions">
+        <button type="submit" class="btn btn-primary" id="submitBtn">创建账号</button>
+        <button type="reset" class="btn btn-ghost">重置表单</button>
+      </div>
+
+      <div class="divider">或使用以下方式快速注册</div>
+      <div class="sso">
+        <a href="#wechat">💬 微信</a>
+        <a href="#qq">🐧 QQ</a>
+        <a href="#edu">🎓 教育邮箱</a>
+      </div>
+    </form>
+
+    <!-- 提交成功后的面板：展示 FormData 收集到的数据 -->
+    <section class="success" id="successPanel" aria-live="polite">
+      <div class="tick" aria-hidden="true">✓</div>
+      <h3>注册信息校验通过</h3>
+      <p>下面是本次表单通过 HTML5 约束校验并序列化后的数据，实际项目把它 POST 到后端接口即可。</p>
+      <pre id="successData"></pre>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" id="backBtn">返回修改</button>
+        <a class="btn btn-primary" href="login.html">去登录</a>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="assets/auth.js"></script>
+<script>
+/* ============================================================
+   注册页专属逻辑（校验提示、密码强度、头像预览由 AuthUI 提供）
+   ============================================================ */
+const form        = document.getElementById('signupForm');
+const progressBar = document.getElementById('formProgress');
+const progressTxt = document.getElementById('progressText');
+const formError   = document.getElementById('formError');
+
+const pwdInput  = document.getElementById('password');
+const pwd2Input = document.getElementById('password2');
+const emailInput = document.getElementById('email');
+const avatarInput = document.getElementById('avatar');
+const avatarPreview = document.getElementById('avatarPreview');
+const limitInput = document.getElementById('dailyLimit');
+const limitOut   = document.getElementById('limitOut');
+
+/* ---------- 1) 表单完成度 → <progress> ---------- */
+const REQUIRED_FIELDS = ['username', 'email', 'phone', 'password', 'password2'];
+const OPTIONAL_FIELDS = ['realname', 'school', 'enrollDate', 'homepage', 'invite'];
+
+function updateProgress() {
+  let score = 0;
+  let total = 0;
+
+  REQUIRED_FIELDS.forEach((id) => {          // 必填项权重更高
+    total += 2;
+    const el = document.getElementById(id);
+    if (el.value.trim() && el.validity.valid) score += 2;
+  });
+
+  OPTIONAL_FIELDS.forEach((id) => {
+    total += 1;
+    if (document.getElementById(id).value.trim()) score += 1;
+  });
+
+  total += 1;
+  if (form.agree.checked) score += 1;        // 必须勾选服务条款
+
+  total += 1;
+  if (document.querySelectorAll('input[name="subjects"]:checked').length) score += 1;
+
+  const pct = Math.round((score / total) * 100);
+  progressBar.value = pct;
+  progressTxt.textContent = pct + '%';
+}
+
+/* ---------- 2) 滑块 → <output> ---------- */
+function syncLimit() {
+  limitOut.textContent = limitInput.value === '0' ? '不限量' : limitInput.value + ' 题';
+}
+limitInput.addEventListener('input', syncLimit);
+syncLimit();
+
+/* ---------- 3) 头像本地预览（File + createObjectURL） ---------- */
+let avatarURL = null;
+
+avatarInput.addEventListener('change', () => {
+  const file = avatarInput.files[0];
+  if (!file) return;
+
+  if (file.size > 1024 * 1024) {
+    avatarInput.setCustomValidity('头像请控制在 1MB 以内');
+    avatarInput.reportValidity();
+    updateProgress();
+    return;
+  }
+  avatarInput.setCustomValidity('');
+
+  if (avatarURL) URL.revokeObjectURL(avatarURL);   // 释放上一次的临时地址
+  avatarURL = URL.createObjectURL(file);
+  avatarPreview.innerHTML = '<img src="' + avatarURL + '" alt="头像预览">';
+  updateProgress();
+});
+
+/* ---------- 4) 自定义校验文案 ---------- */
+const messages = {
+  username: {
+    valueMissing: '请填写用户名',
+    tooShort: '用户名至少 3 个字符',
+    tooLong: '用户名最多 16 个字符',
+    patternMismatch: '只能使用中文、字母、数字和下划线'
+  },
+  email: {
+    valueMissing: '请填写邮箱',
+    typeMismatch: '邮箱格式不正确，例如 name@example.com',
+    customError: '该邮箱已被注册，请更换或直接登录'
+  },
+  phone: {
+    valueMissing: '请填写手机号',
+    patternMismatch: '请输入 11 位有效的中国大陆手机号'
+  },
+  homepage: {
+    typeMismatch: '请输入完整的网址，如 https://example.com',
+    patternMismatch: '网址需要以 http:// 或 https:// 开头'
+  },
+  invite: { patternMismatch: '邀请码为 6 位大写字母或数字' },
+  password: {
+    valueMissing: '请设置密码',
+    tooShort: '密码至少 8 位',
+    patternMismatch: '密码需同时包含字母和数字'
+  },
+  password2: {
+    valueMissing: '请再次输入密码',
+    customError: '两次输入的密码不一致'
+  },
+  agree: { valueMissing: '请先阅读并同意服务条款与隐私政策' }
+};
+
+/* 两次密码一致性：用 setCustomValidity 注入自定义约束 */
+function syncPasswordMatch() {
+  pwd2Input.setCustomValidity(
+    pwd2Input.value && pwd2Input.value !== pwdInput.value ? '两次输入的密码不一致' : ''
+  );
+}
+pwdInput.addEventListener('input', syncPasswordMatch);
+pwd2Input.addEventListener('input', syncPasswordMatch);
+
+/* 演示：这些邮箱视为「已被占用」 */
+const TAKEN_EMAILS = ['test@example.com', 'admin@ai-ta.com', 'hello@example.com'];
+emailInput.addEventListener('input', () => {
+  const taken = TAKEN_EMAILS.indexOf(emailInput.value.trim().toLowerCase()) > -1;
+  emailInput.setCustomValidity(taken ? '该邮箱已被注册，请更换或直接登录' : '');
+});
+
+/* ---------- 5) 共用反馈：实时提示 + 提交汇总 ---------- */
+AuthUI.bindForm({
+  form: form,
+  messages: messages,
+  summary: formError,
+  onChange: updateProgress,
+  onValid: () => {
+    const summary = AuthUI.serialize(form);
+    summary.subjects = new FormData(form).getAll('subjects');   // 多选项统一为数组
+    document.getElementById('successData').textContent = JSON.stringify(summary, null, 2);
+    form.style.display = 'none';
+    document.getElementById('successPanel').classList.add('show');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+});
+
+/* ---------- 6) 组件绑定 ---------- */
+AuthUI.bindPasswordToggle(pwdInput, document.getElementById('togglePwd'));
+AuthUI.bindStrength(pwdInput, document.getElementById('pwdStrength'),
+                    document.getElementById('pwdStrengthText'));
+
+/* 返回修改 */
+document.getElementById('backBtn').addEventListener('click', () => {
+  document.getElementById('successPanel').classList.remove('show');
+  form.style.display = '';
+  form.scrollIntoView({ block: 'start' });
+});
+
+/* 重置：连自定义错误、强度计、头像预览一起清理 */
+form.addEventListener('reset', () => {
+  setTimeout(() => {
+    form.classList.remove('was-validated');
+    formError.classList.remove('show');
+    [pwdInput, pwd2Input, emailInput, avatarInput].forEach((el) => el.setCustomValidity(''));
+    Object.keys(messages).forEach((key) => {
+      const el = document.getElementById(key) ||
+                 form.querySelector('[name="' + key + '"]');
+      if (el && el.id) AuthUI.renderMessage(el, messages);
+    });
+    avatarPreview.textContent = '👤';
+    if (avatarURL) { URL.revokeObjectURL(avatarURL); avatarURL = null; }
+    updateProgress();
+  }, 0);
+});
+
+/* ---------- 初始化 ---------- */
+updateProgress();
+</script>
+</body>
+</html>
