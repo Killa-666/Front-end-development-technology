@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hover Float Animation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #1d1b1a;
+        }
+
+        .stage {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 56px;
+            padding: 56px 32px;
+            max-width: 1200px;
+        }
+
+        .cube {
+            width: 170px;
+            height: 170px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+        }
+
+        /* 鼠标悬浮时才上浮 */
+        .cube:hover {
+            transform: translateY(-10px);
+        }
+
+        .c1 {
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff9a56, #ff5e62);
+            box-shadow: 0 10px 24px rgba(255, 94, 98, 0.35);
+        }
+
+        .c1:hover {
+            box-shadow: 0 20px 40px rgba(255, 94, 98, 0.55);
+            filter: brightness(1.15);
+        }
+
+        .c2 {
+            border-radius: 24px;
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            box-shadow: 0 10px 24px rgba(79, 172, 254, 0.35);
+        }
+
+        .c2:hover {
+            box-shadow: 0 20px 40px rgba(79, 172, 254, 0.55);
+            filter: brightness(1.15);
+        }
+
+        .c3 {
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            box-shadow: 0 10px 24px rgba(67, 233, 123, 0.35);
+        }
+
+        .c3:hover {
+            box-shadow: 0 20px 40px rgba(67, 233, 123, 0.55);
+            filter: brightness(1.15);
+        }
+
+        .c4 {
+            border-radius: 12px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            box-shadow: 0 10px 24px rgba(240, 147, 251, 0.35);
+        }
+
+        .c4:hover {
+            box-shadow: 0 20px 40px rgba(240, 147, 251, 0.55);
+            filter: brightness(1.15);
+        }
+
+        .c5 {
+            border-radius: 60px 10px 60px 10px;
+            background: linear-gradient(135deg, #fa709a, #fee140);
+            box-shadow: 0 10px 24px rgba(250, 112, 154, 0.35);
+        }
+
+        .c5:hover {
+            box-shadow: 0 20px 40px rgba(250, 112, 154, 0.55);
+            filter: brightness(1.15);
+        }
+
+        .c6 {
+            border-radius: 50% 20% 50% 20%;
+            background: linear-gradient(135deg, #a18cd1, #fbc2eb);
+            box-shadow: 0 10px 24px rgba(161, 140, 209, 0.35);
+        }
+
+        .c6:hover {
+            box-shadow: 0 20px 40px rgba(161, 140, 209, 0.55);
+            filter: brightness(1.15);
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .cube {
+                width: 120px;
+                height: 120px;
+            }
+
+            .stage {
+                gap: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stage">
+        <div class="cube c1"></div>
+        <div class="cube c2"></div>
+        <div class="cube c3"></div>
+        <div class="cube c4"></div>
+        <div class="cube c5"></div>
+        <div class="cube c6"></div>
+    </div>
+</body>
+</html>
