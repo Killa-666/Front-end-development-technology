@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <title>运营数据看板 · HTML + CSS + 原生 JS 响应式作业</title>
+  <meta name="description" content="手机单列 / 平板两列 / 桌面四列 + 侧栏的响应式数据看板，卡片内的 6 条指标全部由 JS 数组渲染。" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===================== 顶部栏：h1 主标题 + 操作按钮 ===================== -->
+  <header class="app-header">
+    <div class="brand">
+      <span class="brand__logo" aria-hidden="true">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3.5 20.5h17" />
+          <path d="M6.8 20.5V12" />
+          <path d="M11.2 20.5V4.6" />
+          <path d="M15.6 20.5v-6" />
+          <path d="M20 20.5V8.4" />
+        </svg>
+      </span>
+      <div class="brand__text">
+        <h1>运营数据看板</h1>
+        <p class="brand__sub">手机 · 平板 · 桌面 三档断点</p>
+      </div>
+    </div>
+
+    <div class="header__actions">
+      <button type="button" class="btn" id="refresh-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M20.5 12a8.5 8.5 0 1 1-2.6-6.1" />
+          <path d="M20.5 3.8v5.4h-5.4" />
+        </svg>
+        <span>刷新数据</span>
+      </button>
+
+      <button type="button" class="btn btn--primary" id="theme-toggle" aria-pressed="false">
+        <span class="btn__icon" id="theme-toggle-icon" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.5 14.8A8.6 8.6 0 0 1 9.2 3.5a8.6 8.6 0 1 0 11.3 11.3Z" />
+          </svg>
+        </span>
+        <span id="theme-toggle-label">深色模式</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================== 主体：侧栏 + 卡片区 ===================== -->
+  <div class="layout">
+    <!-- 侧栏：桌面为左侧固定栏，平板/手机自动折叠为顶部面板 -->
+    <aside class="sidebar" aria-label="看板控制面板">
+      <section class="panel" aria-labelledby="panel-range-title">
+        <h2 class="panel__title" id="panel-range-title">时间范围</h2>
+        <div class="segmented" role="group" aria-label="选择时间范围" id="range-group">
+          <button type="button" class="seg" data-range="7" aria-pressed="true">近 7 天</button>
+          <button type="button" class="seg" data-range="30" aria-pressed="false">近 30 天</button>
+          <button type="button" class="seg" data-range="90" aria-pressed="false">近 90 天</button>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="panel-theme-title">
+        <h2 class="panel__title" id="panel-theme-title">外观主题</h2>
+        <div class="segmented" role="group" aria-label="选择外观主题" id="theme-group">
+          <button type="button" class="seg" data-theme-value="light" aria-pressed="true">浅色</button>
+          <button type="button" class="seg" data-theme-value="dark" aria-pressed="false">深色</button>
+        </div>
+        <p class="panel__hint">全部颜色由 CSS 变量统一管理，切换时无需改动任何组件样式。</p>
+      </section>
+
+      <section class="panel" aria-labelledby="panel-channel-title">
+        <h2 class="panel__title" id="panel-channel-title">渠道占比</h2>
+        <!-- 由 JS 数组渲染 -->
+        <ul class="channels" id="channels"></ul>
+      </section>
+    </aside>
+
+    <!-- 卡片区：使用 <section>，卡片本身使用 <article> -->
+    <main class="main">
+      <section class="cards-section" aria-labelledby="cards-title">
+        <div class="section-head">
+          <h2 class="section-head__title" id="cards-title">核心指标</h2>
+          <p class="section-head__meta">
+            数据范围：<strong id="range-label">近 7 天</strong>
+            <span class="dot" aria-hidden="true">·</span>
+            更新于 <time id="updated-at" aria-live="polite">--:--:--</time>
+          </p>
+        </div>
+
+        <!-- 6 张卡片 × 每张 6 条数据，全部由 app.js 的数组渲染 -->
+        <div class="cards" id="cards"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="app-footer">
+    <p>
+      当前断点：<span class="bp-badge" id="bp-badge">—</span>
+      <span class="dot" aria-hidden="true">·</span>
+      页面在 320px – 1920px 全区间不出现横向滚动条
+    </p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
